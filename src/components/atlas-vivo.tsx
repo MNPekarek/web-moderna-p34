@@ -36,7 +36,6 @@ type MobileDrag = {
   pointerId: number;
   startX: number;
   startY: number;
-  startTime: number;
   lastX: number;
   lastTime: number;
   velocity: number;
@@ -199,7 +198,7 @@ export function AtlasVivo() {
       return;
     }
 
-    const { traveler, travelerSource, outgoing, from, to, travelerKey } = pieces;
+    const { traveler, outgoing, from, to, travelerKey } = pieces;
     const progress = Math.max(0, Math.min(1, pieces.progress));
     const remaining = Math.max(.06, .82 * (1 - progress));
 
@@ -419,35 +418,37 @@ export function AtlasVivo() {
       const freshTiles = Array.from(collage.querySelectorAll<HTMLElement>(":scope > .home-atlas__tile"));
       const oldVisuals = Array.from(overlay.querySelectorAll<HTMLElement>(".home-atlas__tile"));
       gsap.set([...freshTiles, ...oldVisuals], { animation: "none" });
+      gsap.set(overlay, { y: 0, opacity: 1, clipPath: "inset(0% 0 0% 0)", willChange: "transform,opacity" });
       const timeline = gsap.timeline({
         defaults: { overwrite: true },
         onComplete: () => {
           overlay.replaceChildren();
-          gsap.set(freshTiles, { clearProps: "transform,clipPath,opacity,willChange" });
+          gsap.set(overlay, { clearProps: "transform,clipPath,opacity,willChange" });
+          gsap.set(freshTiles, { clearProps: "transform,opacity,willChange" });
           isAnimatingRef.current = false;
         },
       });
       if (line && targetButton) {
         timeline.to(line, { y: targetButton.offsetTop + targetButton.offsetHeight - 1, duration: .46, ease: "power3.inOut" }, 0);
       }
-      timeline.to(oldVisuals, {
-        y: direction > 0 ? -54 : 54,
-        clipPath: direction > 0 ? "inset(0 0 100% 0)" : "inset(100% 0 0 0)",
-        opacity: .2,
-        duration: .44,
+      timeline.to(overlay, {
+        y: direction > 0 ? -46 : 46,
+        opacity: 0,
+        force3D: true,
+        duration: .4,
         ease: "power3.inOut",
       }, 0).fromTo(freshTiles, {
-        y: direction > 0 ? 54 : -42,
-        clipPath: direction > 0 ? "inset(100% 0 0 0)" : "inset(0 0 62% 0)",
-        opacity: .2,
-        willChange: "transform,clip-path",
+        y: direction > 0 ? 46 : -46,
+        opacity: 0,
+        force3D: true,
+        willChange: "transform,opacity",
       }, {
         y: 0,
-        clipPath: "inset(0% 0 0 0)",
         opacity: 1,
-        duration: .52,
-        ease: "power4.out",
-      }, .04);
+        force3D: true,
+        duration: .48,
+        ease: "power3.out",
+      }, .035);
       animateMobileCounter(direction);
       return;
     }
@@ -575,12 +576,11 @@ export function AtlasVivo() {
     const primary = visibleTiles[0];
     const secondary = visibleTiles[1];
     if (!primary || !secondary) return;
-    const now = performance.now();
+    const now = event.timeStamp;
     mobileDragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      startTime: now,
       lastX: event.clientX,
       lastTime: now,
       velocity: 0,
@@ -609,7 +609,7 @@ export function AtlasVivo() {
     }
     if (drag.axis !== "x" || !drag.direction || !drag.pieces) return;
     event.preventDefault();
-    const now = performance.now();
+    const now = event.timeStamp;
     const elapsed = Math.max(1, now - drag.lastTime);
     drag.velocity = Math.abs(event.clientX - drag.lastX) / elapsed;
     drag.lastX = event.clientX;

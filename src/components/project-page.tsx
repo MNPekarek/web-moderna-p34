@@ -4,6 +4,7 @@ import { ProjectPagination } from "@/components/project-pagination";
 import { ProjectMotion } from "@/components/project-motion";
 import { ProjectLightbox } from "@/components/project-lightbox";
 import { ProjectTouchInteractions } from "@/components/project-touch-interactions";
+import { ProjectIntro } from "@/components/project-intro";
 import type { Project, ProjectImage } from "@/content/types";
 import { getCategoryById, getProjectImage } from "@/content/selectors";
 
@@ -34,6 +35,7 @@ export function ProjectPage({ project, previous, next }: { project: Project; pre
 
   return (
     <main className="project-page" data-project-page>
+      <ProjectIntro projectCode={project.code} />
       <ProjectMotion />
       <ProjectLightbox code={project.code} title={project.title} images={galleryImages} />
       <ProjectTouchInteractions />

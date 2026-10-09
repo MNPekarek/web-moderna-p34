@@ -52,6 +52,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-intro span { display: block; overflow: hidden; }
 .home-intro__mark { display: block; font-size: clamp(2.2rem,4vw,4.5rem); font-weight: 560; letter-spacing: -.04em; }
 .home-intro__line { position: absolute; top: 50%; right: 0; left: 0; height: 1px; background: rgba(243,241,235,.42); }
+.project-intro__identity { position: relative; display: grid; justify-items: end; transform: translateY(clamp(-1.3rem,-1.4vw,-.85rem)); }
+.project-intro__label-mask { margin-top: .35rem; overflow: hidden; }
+.project-intro__label { display: block; padding-right: .08em; font-size: clamp(.55rem,.72vw,.72rem); font-style: normal; font-weight: 520; line-height: 1; letter-spacing: .34em; text-transform: uppercase; }
 @keyframes home-intro-fallback { to { visibility: hidden; clip-path: inset(0 0 100% 0); } }
 
 .site-header {
