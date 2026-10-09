@@ -52,39 +52,40 @@ export function PhaseOneMotion() {
             const figure = work.querySelector("figure");
             const image = work.querySelector("img");
             if (!figure || !image) return;
-            gsap.fromTo(figure, { clipPath: index % 2 ? "inset(0 0 16% 0)" : "inset(12% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", duration: .95, ease: "power4.out", scrollTrigger: { trigger: work, start: "top 86%", once: true } });
-            gsap.fromTo(image, { scale: 1.055 }, { scale: 1, duration: 1.15, ease: "power3.out", scrollTrigger: { trigger: work, start: "top 86%", once: true } });
+            gsap.fromTo(figure, { clipPath: index % 2 ? "inset(0 0 16% 0)" : "inset(12% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", ease: "none", scrollTrigger: { trigger: work, start: "top 90%", end: "top 60%", scrub: .6 } });
+            gsap.fromTo(image, { scale: 1.055 }, { scale: 1, ease: "none", scrollTrigger: { trigger: work, start: "top 90%", end: "top 60%", scrub: .6 } });
             gsap.to(image, { yPercent: 3.5, ease: "none", scrollTrigger: { trigger: work, start: "top bottom", end: "bottom top", scrub: 1 } });
           });
 
-          gsap.fromTo("[data-territory-image-shell]", { clipPath: "inset(12% 0 0 0)", scale: 1.05 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, duration: 1.05, ease: "power4.out", scrollTrigger: { trigger: ".territory-media", start: "top 84%", once: true } });
-          gsap.fromTo(".territory-number", { opacity: 0, xPercent: 5 }, { opacity: .78, xPercent: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: ".territory-principles", start: "top 82%", once: true } });
+          gsap.fromTo("[data-territory-image-shell]", { clipPath: "inset(12% 0 0 0)", scale: 1.05 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, ease: "none", scrollTrigger: { trigger: ".territory-media", start: "top 90%", end: "top 58%", scrub: .62 } });
+          gsap.fromTo(".territory-number", { opacity: 0, xPercent: 5 }, { opacity: .78, xPercent: 0, ease: "none", scrollTrigger: { trigger: ".territory-principles", start: "top 78%", end: "top 48%", scrub: .8 } });
           gsap.fromTo(".home-atlas", { clipPath: "inset(10% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", ease: "none", scrollTrigger: { trigger: ".home-atlas", start: "top bottom", end: "top 72%", scrub: .7 } });
+          gsap.fromTo(".home-atlas__tile", { clipPath: "inset(10% 0 0 0)", scale: 1.025 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, stagger: .1, ease: "none", scrollTrigger: { trigger: ".home-atlas__viewer", start: "top 90%", end: "top 58%", scrub: .6 } });
           gsap.fromTo(".development", { clipPath: "inset(9% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", ease: "none", scrollTrigger: { trigger: ".development", start: "top bottom", end: "top 74%", scrub: .7 } });
           gsap.fromTo(".home-closing", { clipPath: "inset(10% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", ease: "none", scrollTrigger: { trigger: ".home-closing", start: "top bottom", end: "top 72%", scrub: .7 } });
         });
         mm.add("(max-width: 760px)", () => {
           gsap.utils.toArray<HTMLElement>(".selected-work figure").forEach((figure) => {
-            gsap.fromTo(figure, { clipPath: "inset(8% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", duration: .72, ease: "power3.out", scrollTrigger: { trigger: figure, start: "top 90%", once: true } });
+            gsap.fromTo(figure, { clipPath: "inset(8% 0 0 0)" }, { clipPath: "inset(0% 0 0% 0)", duration: .66, ease: "power3.out", scrollTrigger: { trigger: figure, start: "top 92%", once: true } });
           });
-          gsap.fromTo("[data-territory-image-shell]", { clipPath: "inset(8% 0 0 0)", scale: 1.015 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, duration: .78, ease: "power3.out", scrollTrigger: { trigger: ".territory-media", start: "top 90%", once: true } });
+          gsap.fromTo("[data-territory-image-shell]", { clipPath: "inset(8% 0 0 0)", scale: 1.015 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, duration: .68, ease: "power3.out", scrollTrigger: { trigger: ".territory-media", start: "top 92%", once: true } });
+          gsap.fromTo(".home-atlas__tile", { clipPath: "inset(8% 0 0 0)", scale: 1.012 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, duration: .7, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".home-atlas__viewer", start: "top 92%", once: true } });
         });
 
-        const reveal = (trigger: string, targets: string, start = "top 84%") => {
-          gsap.fromTo(targets, { yPercent: 22, clipPath: "inset(0 0 100% 0)" }, { yPercent: 0, clipPath: "inset(0% 0 0% 0)", duration: .9, stagger: .08, ease: "power4.out", scrollTrigger: { trigger, start, once: true } });
+        const reveal = (trigger: string, targets: string, start = "top 76%") => {
+          gsap.fromTo(targets, { yPercent: 22, clipPath: "inset(0 0 100% 0)" }, { yPercent: 0, clipPath: "inset(0% 0 0% 0)", stagger: .08, ease: "none", scrollTrigger: { trigger, start, end: "top 48%", scrub: .65 } });
         };
-        const label = (trigger: string, target: string) => gsap.fromTo(target, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power3.out", scrollTrigger: { trigger, start: "top 84%", once: true } });
+        const label = (trigger: string, target: string) => gsap.fromTo(target, { y: 10, opacity: 0 }, { y: 0, opacity: 1, ease: "none", scrollTrigger: { trigger, start: "top 80%", end: "top 62%", scrub: .5 } });
 
         label(".selected-works", ".selected-works__header .eyebrow");
         reveal(".selected-works", ".selected-works__header h2");
         label(".territory-scene", ".territory-copy .eyebrow");
         reveal(".territory-scene", ".territory-copy blockquote");
-        gsap.fromTo(".territory-note", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .65, ease: "power3.out", scrollTrigger: { trigger: ".territory-copy", start: "top 74%", once: true } });
-        gsap.fromTo(".territory-principles li", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .55, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".territory-principles", start: "top 84%", once: true } });
+        gsap.fromTo(".territory-note", { y: 14, opacity: 0 }, { y: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: ".territory-copy", start: "top 72%", end: "top 50%", scrub: .55 } });
+        gsap.fromTo(".territory-principles li", { y: 12, opacity: 0 }, { y: 0, opacity: 1, stagger: .08, ease: "none", scrollTrigger: { trigger: ".territory-principles", start: "top 78%", end: "top 48%", scrub: .65 } });
 
         label(".home-atlas", ".home-atlas__header");
-        gsap.fromTo(".home-atlas__categories button", { yPercent: 35, clipPath: "inset(0 0 100% 0)" }, { yPercent: 0, clipPath: "inset(0% 0 0% 0)", duration: .65, stagger: .07, ease: "power4.out", scrollTrigger: { trigger: ".home-atlas__categories", start: "top 84%", once: true } });
-        gsap.fromTo(".home-atlas__tile", { clipPath: "inset(10% 0 0 0)", scale: 1.025 }, { clipPath: "inset(0% 0 0% 0)", scale: 1, duration: .85, stagger: .11, ease: "power4.out", scrollTrigger: { trigger: ".home-atlas__viewer", start: "top 86%", once: true } });
+        gsap.fromTo(".home-atlas__categories button", { yPercent: 35, clipPath: "inset(0 0 100% 0)" }, { yPercent: 0, clipPath: "inset(0% 0 0% 0)", stagger: .07, ease: "none", scrollTrigger: { trigger: ".home-atlas__categories", start: "top 80%", end: "top 52%", scrub: .6 } });
 
         label(".development", ".development .eyebrow");
         reveal(".development", ".development h2");
@@ -95,10 +96,10 @@ export function PhaseOneMotion() {
 
         label(".home-closing", ".home-closing > .eyebrow");
         reveal(".home-closing", ".home-closing h2");
-        gsap.fromTo(".home-closing__meta > div", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .55, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".home-closing__meta", start: "top 86%", once: true } });
-        gsap.fromTo(".contact-trigger", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: "power3.out", scrollTrigger: { trigger: ".contact-trigger", start: "top 92%", once: true } });
-        gsap.fromTo(".site-footer__top > *", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .55, stagger: .07, ease: "power3.out", scrollTrigger: { trigger: ".site-footer--editorial", start: "top 88%", once: true } });
-        gsap.fromTo(".site-footer__signature", { xPercent: -4, clipPath: "inset(0 100% 0 0)", letterSpacing: "-.11em" }, { xPercent: 0, clipPath: "inset(0 0% 0 0)", letterSpacing: "-.075em", duration: .95, ease: "power4.out", scrollTrigger: { trigger: ".site-footer__signature", start: "top 90%", once: true } });
+        gsap.fromTo(".home-closing__meta > div", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .6, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".home-closing__meta", start: "top 72%", once: true } });
+        gsap.fromTo(".contact-trigger", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .65, ease: "power3.out", scrollTrigger: { trigger: ".contact-trigger", start: "top 80%", once: true } });
+        gsap.fromTo(".site-footer__top > *", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .6, stagger: .07, ease: "power3.out", scrollTrigger: { trigger: ".site-footer--editorial", start: "top 76%", once: true } });
+        gsap.fromTo(".site-footer__signature", { xPercent: -4, clipPath: "inset(0 100% 0 0)", letterSpacing: "-.11em" }, { xPercent: 0, clipPath: "inset(0 0% 0 0)", letterSpacing: "-.075em", duration: 1, ease: "power4.out", scrollTrigger: { trigger: ".site-footer__signature", start: "top 78%", once: true } });
 
         const panel = document.querySelector(".contact-panel");
         if (panel) {
@@ -110,11 +111,27 @@ export function PhaseOneMotion() {
         }
       });
 
-      let lenis: { raf: (time: number) => void; destroy: () => void } | null = null;
+      let lenis: import("lenis").default | null = null;
+      let snap: import("lenis/snap").default | null = null;
       let rafId = 0;
       if (canUseSmoothScroll()) {
-        const { default: Lenis } = await import("lenis");
+        const [{ default: Lenis }, { default: LenisSnap }] = await Promise.all([import("lenis"), import("lenis/snap")]);
         lenis = new Lenis({ duration: 1.02, smoothWheel: true, syncTouch: false, wheelMultiplier: .9 });
+        snap = new LenisSnap(lenis, {
+          type: "proximity",
+          distanceThreshold: "16%",
+          debounce: 140,
+          duration: .5,
+          easing: (time) => 1 - Math.pow(1 - time, 4),
+        });
+
+        [".home-hero", ".territory-scene", ".development", ".home-closing"].forEach((selector) => {
+          const element = document.querySelector<HTMLElement>(selector);
+          if (element) snap?.addElement(element, { align: "start", ignoreTransform: true });
+        });
+        const atlas = document.querySelector<HTMLElement>(".home-atlas");
+        if (atlas) snap.addElement(atlas, { align: "center", ignoreTransform: true });
+
         const raf = (time: number) => { lenis?.raf(time); rafId = requestAnimationFrame(raf); };
         rafId = requestAnimationFrame(raf);
       }
@@ -124,6 +141,7 @@ export function PhaseOneMotion() {
         revertMedia();
         context.revert();
         if (rafId) cancelAnimationFrame(rafId);
+        snap?.destroy();
         lenis?.destroy();
       };
     };

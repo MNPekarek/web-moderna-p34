@@ -733,16 +733,23 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-atlas { position: relative; display: grid; grid-template-rows: auto minmax(0,1fr) auto; height: 100svh; min-height: 100svh; overflow: hidden; padding: var(--nav-safe-area) var(--page-gutter) clamp(2rem,3vw,3rem); color: var(--color-mineral); background: var(--color-coal); }
 .home-atlas__header { padding-bottom: clamp(.8rem,1.25vw,1.25rem); border-bottom: 1px solid rgba(243,241,235,.25); }
 .home-atlas__body { display: grid; grid-template-columns: minmax(0,.68fr) minmax(34rem,1.12fr); gap: clamp(2.5rem,4vw,5.5rem); align-items: center; min-height: 0; padding: clamp(.35rem,.8vw,.75rem) 0 clamp(1rem,1.8vw,1.75rem); }
-.home-atlas__categories { display: grid; width: min(100%,38rem); }
+.home-atlas__categories { position: relative; display: grid; width: min(100%,38rem); }
 .home-atlas__categories button { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: .27em 0; border: 0; border-bottom: 1px solid rgba(243,241,235,.18); color: rgba(243,241,235,.34); background: transparent; font: inherit; text-align: left; cursor: pointer; transition: color .45s ease,padding .45s var(--ease-out); }
 .home-atlas__categories button span { font-family: var(--font-display); font-size: clamp(3rem,min(5vw,9svh),5.8rem); line-height: .8; letter-spacing: -.045em; text-transform: uppercase; }
 .home-atlas__categories button small { align-self: start; padding-top: .45rem; font-size: .56rem; letter-spacing: .1em; }
 .home-atlas__categories button.is-active { padding-left: clamp(1rem,2vw,2rem); color: var(--color-mineral); }
 .home-atlas__categories button[aria-pressed="true"] { color: var(--color-mineral); }
 .home-atlas__categories button[aria-pressed="true"]::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 1px; background: currentColor; content: ""; transform: scaleX(1); transform-origin: left; }
+.home-atlas__active-line { display: none; }
 .home-atlas__viewer { width: min(100%,62rem); justify-self: end; }
 .home-atlas__collage { display: grid; grid-template-columns: repeat(12,1fr); grid-template-rows: repeat(10,1fr); width: 100%; height: min(57svh,39rem); min-height: 25rem; }
 .home-atlas__tile { position: relative; overflow: hidden; color: inherit; background: #1b1b19; animation: atlas-project-reveal .62s var(--ease-out) both; }
+.home-atlas__category-overlay { display: none; }
+.home-atlas__tile-clone { position: absolute; z-index: 10; margin: 0; pointer-events: none; animation: none; transform-origin: center; }
+.home-atlas__mobile-traveler { position: absolute; z-index: 30 !important; grid-area: auto !important; margin: 0 !important; border: 0 !important; overflow: hidden; pointer-events: none; animation: none !important; transform-origin: 0 0; will-change: transform; contain: paint; backface-visibility: hidden; }
+.home-atlas__mobile-traveler img { transition: none !important; }
+.home-atlas__mobile-traveler .home-atlas__tile-meta, .home-atlas__mobile-traveler .home-atlas__tile-action { opacity: 0 !important; animation: none !important; }
+.home-atlas__project-image { user-select: none; -webkit-user-drag: none; }
 .home-atlas__tile::after { position: absolute; inset: 45% 0 0; background: linear-gradient(0deg,rgba(8,8,7,.68),transparent); content: ""; }
 .home-atlas__tile--1 { z-index: 1; grid-column: 1 / 8; grid-row: 1 / 10; }
 .home-atlas__tile--2 { grid-column: 8 / 13; grid-row: 1 / 6; margin-left: clamp(.8rem,1.4vw,1.5rem); animation-delay: .06s; }
@@ -760,6 +767,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-atlas__tile.is-linked:hover .home-atlas__tile-action, .home-atlas__tile.is-linked:focus-visible .home-atlas__tile-action { opacity: 1; transform: translateY(0); }
 .home-atlas__project-nav { position: absolute; right: var(--page-gutter); bottom: clamp(2rem,3vw,3rem); display: flex; justify-content: space-between; align-items: center; width: min(calc(55vw - var(--page-gutter)),62rem); padding-top: .75rem; border-top: 1px solid rgba(243,241,235,.24); font-size: .55rem; letter-spacing: .12em; text-transform: uppercase; }
 .home-atlas__project-nav > div { display: flex; gap: .35rem; }
+.home-atlas__counter { position: relative; display: inline-flex; overflow: hidden; }
+.home-atlas__counter-current { display: inline-block; }
+.home-atlas__counter-current.is-outgoing { position: absolute; top: 0; left: 0; }
 .home-atlas__project-nav button { display: grid; width: 2rem; height: 1.75rem; place-items: center; border: 0; color: inherit; background: transparent; font: inherit; font-size: .8rem; cursor: pointer; transition: opacity var(--duration-fast) ease,transform var(--duration-fast) var(--ease-out); }
 .home-atlas__project-nav button:hover:not(:disabled), .home-atlas__project-nav button:focus-visible:not(:disabled) { transform: translateX(-2px); }
 .home-atlas__project-nav button:last-child:hover:not(:disabled), .home-atlas__project-nav button:last-child:focus-visible:not(:disabled) { transform: translateX(2px); }
@@ -768,6 +778,19 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .home-atlas__link { display: inline-block; width: max-content; margin-top: .5rem; padding-bottom: .4rem; border-bottom: 1px solid currentColor; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
 @keyframes atlas-project-reveal { from { opacity: .82; clip-path: inset(0 0 7% 0); transform: translateY(1.2rem) scale(1.012); } to { opacity: 1; clip-path: inset(0); transform: translateY(0) scale(1); } }
 @keyframes atlas-meta-reveal { from { opacity: .55; transform: translateY(.55rem); } to { opacity: 1; transform: translateY(0); } }
+
+@media (min-width: 761px) {
+  .home-atlas__categories button[aria-pressed="true"]::after { display: none; }
+  .home-atlas__active-line { position: absolute; z-index: 2; top: 0; left: 0; display: block; height: 1px; background: var(--color-mineral); pointer-events: none; will-change: transform,width; }
+  .home-atlas__collage { position: relative; overflow: hidden; isolation: isolate; }
+  .home-atlas__category-overlay { position: absolute; z-index: 8; inset: 0; display: grid; grid-template-columns: repeat(12,1fr); grid-template-rows: repeat(10,1fr); overflow: hidden; pointer-events: none; }
+  .home-atlas__category-overlay:empty { display: none; }
+  .home-atlas__category-overlay .home-atlas__tile { animation: none; }
+  .home-atlas__tile { animation: none; }
+  .home-atlas__tile img { transition: transform .85s var(--ease-out); }
+  .home-atlas__tile.is-linked:hover img, .home-atlas__tile.is-linked:focus-visible img { transform: scale(1.025); }
+  .home-atlas__project-nav button:active { opacity: .56; }
+}
 
 @media (min-width: 761px) and (max-height: 850px) {
   .home-atlas { padding-bottom: 1.5rem; }
@@ -1172,18 +1195,46 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .home-atlas__categories button.is-active {
     padding-left: .45rem;
   }
+  .home-atlas__categories button[aria-pressed="true"]::after { display: none; }
+  .home-atlas__active-line {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--color-mineral);
+    pointer-events: none;
+    will-change: transform;
+  }
   .home-atlas__viewer {
     grid-row: 2;
     width: 100%;
   }
   .home-atlas__collage {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(12,1fr);
     grid-template-rows: repeat(12,1fr);
     width: 100%;
     height: clamp(21.5rem,100vw,28rem);
     min-height: 0;
+    overflow: hidden;
+    isolation: isolate;
+    touch-action: pan-y;
   }
+  .home-atlas__category-overlay {
+    position: absolute;
+    z-index: 8;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-rows: repeat(12,1fr);
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .home-atlas__category-overlay:empty { display: none; }
   .home-atlas__tile { width: auto; height: auto; }
   .home-atlas__tile--1 {
     grid-column: 1 / 13;
@@ -1197,6 +1248,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
     margin: 0 0 0 .7rem;
     border: .35rem solid var(--color-coal);
   }
+  .home-atlas__tile--2, .home-atlas__tile--2 img { touch-action: pan-y; }
   .home-atlas__tile--3 { display: none; }
   .home-atlas__tile--1 .home-atlas__tile-meta {
     right: 42%;
